@@ -1,8 +1,7 @@
 use std::fs;
 
-
-pub mod vec3;
-pub mod ray;
+mod vec3;
+mod ray;
 
 fn main(){
     //Image
