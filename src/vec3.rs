@@ -13,6 +13,14 @@ impl Vec3 {
         self.y
     }
 
+    pub fn get_x(&self) -> f64 {
+        self.x
+    }
+
+    pub fn get_z(&self) -> f64 {
+        self.z
+    }
+
     pub fn to_color_string(&self) -> String {
         let ir = (255.999 * self.x) as i64;
         let ig = (255.999 * self.y) as i64;

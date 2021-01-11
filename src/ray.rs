@@ -6,6 +6,12 @@ pub struct Ray {
     direction: vec3::Vec3
 }
 
+impl Ray {
+    fn at(&self, t: f64) -> vec3::Vec3 {
+        self.origin + vec3::scale(t, self.direction)
+    }
+}
+
 pub fn init(origin: vec3::Vec3, direction: vec3::Vec3) -> Ray {
     Ray {
         origin,
@@ -13,21 +19,27 @@ pub fn init(origin: vec3::Vec3, direction: vec3::Vec3) -> Ray {
     }
 }
 
-fn hit_sphere(center: &vec3::Vec3, radius: f64, r: &Ray) -> bool {
+fn hit_sphere(center: &vec3::Vec3, radius: f64, r: &Ray) -> f64 {
     let oc = r.origin - *center;
     let a = vec3::dot(r.direction, r.direction);
     let b = 2.0 * vec3::dot(oc, r.direction);
     let c = vec3::dot(oc, oc) - radius * radius;
     let disriminant = b * b - 4.0 * a * c;
-    disriminant > 0.0
+    if disriminant < 0.0 {
+        return -1.0; 
+    } else {
+        return (-b - disriminant.sqrt()) / (2.0 * a);
+    }
 }
 
 pub fn ray_color(ray: Ray) -> vec3::Vec3 {
-    if hit_sphere(&vec3::init(0.0, 0.0, -1.0), 0.5, &ray) {
-        return vec3::init(1.0, 0.0, 0.0);
+    let mut t = hit_sphere(&vec3::init(0.0, 0.0, -1.0), 0.5, &ray);
+    if t > 0.0 {
+        let n = vec3::unit_vector(&(ray.at(t) - vec3::init(0.0, 0.0, -0.1)));
+        return vec3::scale(0.5, vec3::init(n.get_y() + 1.0, n.get_z() + 1.0, n.get_x() + 1.0));
     }
     let unit_direction = vec3::unit_vector(&ray.direction);
-    let t = 0.5 * (unit_direction.get_y() + 1.0);
+    t = 0.5 * (unit_direction.get_y() + 1.0);
 
     vec3::scale(1.0 - t, vec3::init(1.0, 1.0, 1.0)) + vec3::scale(t, vec3::init(0.5, 0.7, 1.0))
 }
