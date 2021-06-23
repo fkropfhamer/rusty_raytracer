@@ -1,5 +1,7 @@
 use std::ops::Add;
 use std::ops::Sub;
+use std::ops::Div;
+use std::ops::Neg;
 
 #[derive(PartialEq, PartialOrd, Debug, Copy, Clone)]
 pub struct Vec3 {
@@ -32,6 +34,10 @@ impl Vec3 {
     pub fn to_string(&self) -> String {
         format!("Vec3 x: {} y: {} z: {}", self.x, self.y, self.z)
     }
+
+    pub fn length_squared(&self) -> f64 {
+        length_squared(self)
+    }
 }
 
 impl Add for Vec3 {
@@ -47,6 +53,26 @@ impl Sub for Vec3 {
 
     fn sub(self, other: Self) -> Self {
         subtract(self, other)
+    }
+}
+
+impl Div for Vec3 {
+    type Output = Self;
+
+    fn div(self, other: Self) -> Self {
+        divide(self, other)
+    }
+}
+
+impl Neg for Vec3 {
+    type Output = Self;
+
+    fn neg(self) -> Self {
+        Vec3 {
+            x: -self.x,
+            y: -self.y,
+            z: -self.z,
+        }
     }
 }
 
@@ -78,6 +104,30 @@ pub fn subtract(vec1: Vec3, vec2: Vec3) -> Vec3 {
     let x = vec1.x - vec2.x;
     let y = vec1.y - vec2.y;
     let z = vec1.z - vec2.z;
+
+    Vec3 {
+        x,
+        y,
+        z,
+    }
+}
+
+pub fn multiply(vec1: Vec3, vec2: Vec3) -> Vec3 {
+    let x = vec1.x * vec2.x;
+    let y = vec1.y * vec2.y;
+    let z = vec1.z * vec2.z;
+
+    Vec3 {
+        x,
+        y,
+        z,
+    }
+}
+
+pub fn divide(vec1: Vec3, vec2: Vec3) -> Vec3 {
+    let x = vec1.x / vec2.x;
+    let y = vec1.y / vec2.y;
+    let z = vec1.z / vec2.z;
 
     Vec3 {
         x,

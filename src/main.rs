@@ -2,6 +2,8 @@ use std::fs;
 
 mod vec3;
 mod ray;
+mod hittable;
+mod sphere;
 
 fn main(){
     //Image

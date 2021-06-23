@@ -7,8 +7,16 @@ pub struct Ray {
 }
 
 impl Ray {
-    fn at(&self, t: f64) -> vec3::Vec3 {
+    pub fn at(&self, t: f64) -> vec3::Vec3 {
         self.origin + vec3::scale(t, self.direction)
+    }
+
+    pub fn origin(&self) -> vec3::Vec3 {
+        self.origin
+    }
+
+    pub fn direction(&self) -> vec3::Vec3 {
+        self.direction
     }
 }
 
@@ -21,14 +29,14 @@ pub fn new(origin: vec3::Vec3, direction: vec3::Vec3) -> Ray {
 
 fn hit_sphere(center: &vec3::Vec3, radius: f64, r: &Ray) -> f64 {
     let oc = r.origin - *center;
-    let a = vec3::dot(r.direction, r.direction);
-    let b = 2.0 * vec3::dot(oc, r.direction);
-    let c = vec3::dot(oc, oc) - radius * radius;
-    let disriminant = b * b - 4.0 * a * c;
+    let a = vec3::length_squared(&r.direction);
+    let half_b = vec3::dot(oc, r.direction);
+    let c = vec3::length_squared(&oc) - radius * radius;
+    let disriminant = half_b * half_b - a * c;
     if disriminant < 0.0 {
         return -1.0; 
     } else {
-        return (-b - disriminant.sqrt()) / (2.0 * a);
+        return (-half_b - disriminant.sqrt()) / a;
     }
 }
 
