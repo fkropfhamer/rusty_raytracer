@@ -50,7 +50,7 @@ impl Sub for Vec3 {
     }
 }
 
-pub fn init(x: f64, y: f64, z: f64) -> Vec3 {
+pub fn new(x: f64, y: f64, z: f64) -> Vec3 {
     Vec3 {
         x,
         y,
@@ -59,7 +59,7 @@ pub fn init(x: f64, y: f64, z: f64) -> Vec3 {
 }
 
 pub fn scale(s: f64, v: Vec3) -> Vec3 {
-    init(s * v.x, s * v.y, s * v.z)
+    new(s * v.x, s * v.y, s * v.z)
 }
 
 pub fn add(vec1: Vec3, vec2: Vec3) -> Vec3 {
@@ -140,7 +140,7 @@ mod tests {
 
     #[test]
     fn test_init() {
-        let vec = init(1.0, 2.0, 3.0);
+        let vec = new(1.0, 2.0, 3.0);
 
         assert_eq!(vec.x, 1.0);
         assert_eq!(vec.y, 2.0);
@@ -149,9 +149,21 @@ mod tests {
 
     #[test]
     fn test_dot() {
-        let vec1 = init(1.0, 2.0, 3.0);
-        let vec2 = init(1.0, 2.0, 3.0);
+        let vec1 = new(1.0, 2.0, 3.0);
+        let vec2 = new(1.0, 2.0, 3.0);
 
         assert_eq!(dot(vec1, vec2), 14.0)
+    }
+
+    #[test]
+    fn test_length() {
+        let vec = new(0.0, 0.0, 3.0);
+        assert_eq!(length(&vec), 3.0);
+    }
+
+    #[test]
+    fn test_unitvector() {
+        let vec = new(0.0, 0.0, 1.0);
+        assert_eq!(unit_vector(&vec), new(0.0, 0.0, 1.0));
     }
 }

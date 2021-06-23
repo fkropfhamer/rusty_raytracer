@@ -12,7 +12,7 @@ impl Ray {
     }
 }
 
-pub fn init(origin: vec3::Vec3, direction: vec3::Vec3) -> Ray {
+pub fn new(origin: vec3::Vec3, direction: vec3::Vec3) -> Ray {
     Ray {
         origin,
         direction,
@@ -32,15 +32,15 @@ fn hit_sphere(center: &vec3::Vec3, radius: f64, r: &Ray) -> f64 {
     }
 }
 
-pub fn ray_color(ray: Ray) -> vec3::Vec3 {
-    let mut t = hit_sphere(&vec3::init(0.0, 0.0, -1.0), 0.5, &ray);
+pub fn ray_color(ray: &Ray) -> vec3::Vec3 {
+    let mut t = hit_sphere(&vec3::new(0.0, 0.0, -1.0), 0.5, ray);
     if t > 0.0 {
-        let n = vec3::unit_vector(&(ray.at(t) - vec3::init(0.0, 0.0, -0.1)));
-        return vec3::scale(0.5, vec3::init(n.get_y() + 1.0, n.get_z() + 1.0, n.get_x() + 1.0));
+        let n = vec3::unit_vector(&(ray.at(t) - vec3::new(0.0, 0.0, -1.0)));
+        return vec3::scale(0.5, vec3::new(n.get_x() + 1.0, n.get_y() + 1.0, n.get_z() + 1.0));
     }
     let unit_direction = vec3::unit_vector(&ray.direction);
     t = 0.5 * (unit_direction.get_y() + 1.0);
 
-    vec3::scale(1.0 - t, vec3::init(1.0, 1.0, 1.0)) + vec3::scale(t, vec3::init(0.5, 0.7, 1.0))
+    vec3::scale(1.0 - t, vec3::new(1.0, 1.0, 1.0)) + vec3::scale(t, vec3::new(0.5, 0.7, 1.0))
 }
 
