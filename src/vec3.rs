@@ -31,9 +31,9 @@ impl Vec3 {
         format!("{} {} {} \n", ir, ig, ib)
     }
 
-    pub fn to_string(&self) -> String {
-        format!("Vec3 x: {} y: {} z: {}", self.x, self.y, self.z)
-    }
+    // pub fn to_string(&self) -> String {
+    //     format!("Vec3 x: {} y: {} z: {}", self.x, self.y, self.z)
+    // }
 
     pub fn length_squared(&self) -> f64 {
         length_squared(self)
@@ -112,17 +112,17 @@ pub fn subtract(vec1: Vec3, vec2: Vec3) -> Vec3 {
     }
 }
 
-pub fn multiply(vec1: Vec3, vec2: Vec3) -> Vec3 {
-    let x = vec1.x * vec2.x;
-    let y = vec1.y * vec2.y;
-    let z = vec1.z * vec2.z;
+// pub fn multiply(vec1: Vec3, vec2: Vec3) -> Vec3 {
+//     let x = vec1.x * vec2.x;
+//     let y = vec1.y * vec2.y;
+//     let z = vec1.z * vec2.z;
 
-    Vec3 {
-        x,
-        y,
-        z,
-    }
-}
+//     Vec3 {
+//         x,
+//         y,
+//         z,
+//     }
+// }
 
 pub fn divide(vec1: Vec3, vec2: Vec3) -> Vec3 {
     let x = vec1.x / vec2.x;
