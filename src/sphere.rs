@@ -16,7 +16,7 @@ impl hittable::Hittable for Sphere {
     let c = oc.length_squared() - self.radius * self.radius;
 
     let discriminant = half_b * half_b - a * c;
-    if discriminant > 0.0 {
+    if discriminant < 0.0 {
       return None;
     }
     let sqrtd = discriminant.sqrt();

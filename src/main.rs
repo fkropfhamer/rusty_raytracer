@@ -16,7 +16,7 @@ fn main(){
 
     //World
     let world = HittableList {
-        objects: vec![Box::new(sphere::new(vec3::new(0.0, 0.0, -1.0), 0.5)), Box::new(sphere::new(vec3::new(0.0, -100.5, -1.0), 100.0))]
+        objects: vec![Box::new(sphere::new(vec3::new(0.0, -100.5, -1.0), 100.0)), Box::new(sphere::new(vec3::new(0.0, 0.0, -1.0), 0.5))]
     };
 
     //Camera
@@ -39,7 +39,7 @@ fn main(){
             let u = i as f64 / (image_width - 1) as f64;
             let v = j as f64 / (image_height - 1) as f64;
             
-            let r = ray::new(origin, lower_left_corner + vec3::scale(u, horizontal) + vec3::scale(v, vertical) - origin);
+            let r = ray::new(origin, lower_left_corner + vec3::scale(u, horizontal) + vec3::scale(v, vertical));
 
             let pixel_color = ray::ray_color(&r, &world);
 
