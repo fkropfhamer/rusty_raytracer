@@ -2,6 +2,7 @@ use std::ops::Add;
 use std::ops::Sub;
 use std::ops::Div;
 use std::ops::Neg;
+use rand::Rng;
 
 fn clamp(val: f64, min: f64, max: f64) -> f64 {
     if val < min {
@@ -24,10 +25,18 @@ pub struct Vec3 {
 }
 
 impl Vec3 {
-    pub fn to_color_string(&self) -> String {
-        let ir = (256.0 * clamp(self.x, 0.0, 0.999)) as i64;
-        let ig = (256.0 * clamp(self.y, 0.0, 0.999)) as i64;
-        let ib = (256.0 * clamp(self.z, 0.0, 0.999)) as i64;
+    pub fn to_color_string(&self, scale: f64) -> String {
+        let r = (scale * self.x).sqrt();
+        let g = (scale * self.y).sqrt();
+        let b = (scale * self.z).sqrt();
+
+        // let r = self.x;
+        // let g = self.y;
+        // let b = self.z;
+
+        let ir = (256.0 * clamp(r, 0.0, 0.999)) as i64;
+        let ig = (256.0 * clamp(g, 0.0, 0.999)) as i64;
+        let ib = (256.0 * clamp(b, 0.0, 0.999)) as i64;
 
         format!("{} {} {} \n", ir, ig, ib)
     }
@@ -82,6 +91,25 @@ pub fn new(x: f64, y: f64, z: f64) -> Vec3 {
         x,
         y,
         z,
+    }
+}
+
+pub fn random_in_unit_sphere() -> Vec3 {
+    loop {
+        let p = random(-1.0, 1.0);
+        if p.length_squared() >= 1.0 {continue;}
+        return p;
+    }
+}
+
+
+pub fn random(min: f64, max: f64) -> Vec3 {
+    let mut rng = rand::thread_rng();
+
+    Vec3 {
+        x: rng.gen_range(min..max),
+        y: rng.gen_range(min..max),
+        z: rng.gen_range(min..max),
     }
 }
 

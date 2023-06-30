@@ -18,6 +18,29 @@ impl Ray {
     pub fn direction(&self) -> vec3::Vec3 {
         self.direction
     }
+
+    pub fn get_color(&self, world: &dyn Hittable, depth: i64) -> vec3::Vec3 {
+        if depth <= 0 {
+            return vec3::new(0.0, 0.0, 0.0)
+        }
+
+        let hit_record = world.hit(self, 0.0, f64::INFINITY);
+        match hit_record {
+            Some(rec) => {
+                let target = rec.p + rec.normal + vec3::random_in_unit_sphere();
+                let new_ray = new(rec.p, target - rec.p);
+
+                return vec3::scale(0.5, new_ray.get_color(world, depth-1))
+            }
+
+            None => {
+                let unit_direction = vec3::unit_vector(&self.direction);
+                let t = 0.5 * (unit_direction.y + 1.0);
+                vec3::scale(1.0 - t, vec3::new(1.0, 1.0, 1.0)) + vec3::scale(t, vec3::new(0.5, 0.7, 1.0))
+            }
+        }
+    }
+
 }
 
 pub fn new(origin: vec3::Vec3, direction: vec3::Vec3) -> Ray {
@@ -40,20 +63,4 @@ pub fn new(origin: vec3::Vec3, direction: vec3::Vec3) -> Ray {
 //     }
 // }
 
-pub fn ray_color(ray: &Ray, world: &dyn Hittable) -> vec3::Vec3 {
-    let hit_record = world.hit(ray, 0.0, f64::INFINITY);
-    match hit_record {
-        Some(rec) => {
-            return vec3::scale(0.5, rec.normal + vec3::new(1.0, 1.0, 1.0))
-        }
-
-        None => {
-            let unit_direction = vec3::unit_vector(&ray.direction);
-            let t = 0.5 * (unit_direction.y + 1.0);
-            vec3::scale(1.0 - t, vec3::new(1.0, 1.0, 1.0)) + vec3::scale(t, vec3::new(0.5, 0.7, 1.0))
-        }
-    }
-
-
-}
 

@@ -1,7 +1,5 @@
 use std::fs;
 
-use ray::ray_color;
-
 use crate::{hittable_list::HittableList, camera::Camera};
 use rand::Rng;
 
@@ -19,7 +17,8 @@ fn main(){
     let image_width = 400;
     let image_height = (image_width as f64 / aspect_ratio) as i64;
     let samples_per_pixel = 100;
-    let scale = 1.0 / samples_per_pixel as f64;
+    let scale = 1.0 / (samples_per_pixel as f64);
+    let max_depth = 50;
 
     //World
     let world = HittableList { 
@@ -45,10 +44,10 @@ fn main(){
                 
                 let ray = camera.get_ray(u, v);
 
-                pixel_color = pixel_color + ray_color(&ray, &world);
+                pixel_color = pixel_color + ray.get_color(&world, max_depth);
             }
             
-            img_str.push_str(&vec3::scale(scale, pixel_color).to_color_string())
+            img_str.push_str(&pixel_color.to_color_string(scale))
         }
     }
     
