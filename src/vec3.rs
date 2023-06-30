@@ -3,30 +3,31 @@ use std::ops::Sub;
 use std::ops::Div;
 use std::ops::Neg;
 
+fn clamp(val: f64, min: f64, max: f64) -> f64 {
+    if val < min {
+        return min;
+    }
+    if val > max {
+        return max;
+    }
+
+    val
+}
+
+
+
 #[derive(PartialEq, PartialOrd, Debug, Copy, Clone)]
 pub struct Vec3 {
-    x: f64,
-    y: f64,
-    z: f64,
+    pub x: f64,
+    pub y: f64,
+    pub z: f64,
 }
 
 impl Vec3 {
-    pub fn get_y(&self) -> f64 {
-        self.y
-    }
-
-    pub fn get_x(&self) -> f64 {
-        self.x
-    }
-
-    pub fn get_z(&self) -> f64 {
-        self.z
-    }
-
     pub fn to_color_string(&self) -> String {
-        let ir = (255.999 * self.x) as i64;
-        let ig = (255.999 * self.y) as i64;
-        let ib = (255.999 * self.z) as i64;
+        let ir = (256.0 * clamp(self.x, 0.0, 0.999)) as i64;
+        let ig = (256.0 * clamp(self.y, 0.0, 0.999)) as i64;
+        let ib = (256.0 * clamp(self.z, 0.0, 0.999)) as i64;
 
         format!("{} {} {} \n", ir, ig, ib)
     }
