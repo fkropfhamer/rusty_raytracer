@@ -1,7 +1,9 @@
 use crate::hittable::{self, HitRecord};
+use std::sync::Arc;
 
+#[derive(Clone)]
 pub struct HittableList {
-    pub objects: Vec<Box<dyn hittable::Hittable>>
+    pub objects: Vec<Arc<dyn hittable::Hittable + Sync + Send>>
 }
 
 

@@ -50,6 +50,8 @@ impl Vec3 {
     }
 }
 
+impl Eq for Vec3 {}
+
 impl Add for Vec3 {
     type Output = Self;
 
